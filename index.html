@@ -6,7 +6,20 @@
     <title>OMNIbus</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
+
 <body>
+
+    <img src="https://pngimg.com/uploads/ibm/ibm_PNG19655.png" alt="IBM Logo" class="logo" onclick="openLink('https://www.ibm.com/in-en')">
+
+    <div class="alignment">
+        <h1>Netcool Omnibus</h1>
+    </div>
+
+    <div class="alignment">
+        <img src="C:\Users\ArchanaNaik\Pictures\Screenshots\Netcool-omnibus.png" class="gui" alt="Netcool WebGUI"/>
+    </div>
+
+
     <div class="container">
         <input type="file" id="fileInput" accept=".xlsx,.xls">
         
@@ -26,9 +39,12 @@
                         </li>
                         <li>
                             <label>High Availability:</label>
-                            <input type="radio" id="ha_yes" name="ha" value="Yes"><label for="ha_yes">Yes</label>
-                            <input type="radio" id="ha_no" name="ha" value="No"><label for="ha_no">No</label>
+                            <select id="ha">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
                         </li>
+                        
                     </ul>
                 </div>
             </div>
@@ -39,8 +55,14 @@
                         <li><label>Event flow rate:</label> <input type="text" id="event_flow_rate" value=""></li>
                         <li><label>Object Server Trigger Stats(Time for all triggers in report period):</label> <input type="text" id="trigger_stats" value=""></li>
                         <li><label>Object Server profiling(Total time in the report period of 60 secs):</label> <input type="text" id="profiling" value=""></li>
-                        <li><label># of Custom Triggers/Procedures created:</label> <input type="text" id="custom_triggers" value=""></li>
-                        <li><label>User restriction filters created, if any:</label> <input type="text" id="restriction_filters" value=""></li>
+                        <li><label># of Triggers/Procedures created:</label> <input type="text" id="custom_triggers" value=""></li>
+                        <li>
+                            <label for="restriction_filters">User restriction filters created, if any:</label> 
+                            <select id="restriction_filters">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -51,11 +73,14 @@
 
     <div id="report" class="report"></div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/3.7.1/jszip.min.js"></script>
-
     <script src="script.js"></script>
 
-    <button id="downloadPDFButton" class="download-button">Download PDF Report</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+
+    <button id="downloadPDFButton" class="download-button" onclick="printPageAsPDF()">Download PDF Report</button>    <footer>
+        <p>&copy; 2024 IBM. All rights reserved.</p>
+    </footer>
     
 </body>
 </html>
