@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMNIbus</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <input type="file" id="fileInput" accept=".xlsx,.xls">
+        
+        <!-- First group of containers -->
+        <div class="group">
+            <div class="column">
+                <div class="specs">
+                    <h2>Netcool/OMNIbus Specifications</h2>
+                    <ul>
+                        <li><label>Version:</label> <input type="text" id="version" value=""></li>
+                        <li>
+                            <label>Architecture:</label>
+                            <select id="architecture">
+                                <option value="Single tier">Single tier</option>
+                                <option value="Multi tier">Multi tier</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label>High Availability:</label>
+                            <input type="radio" id="ha_yes" name="ha" value="Yes"><label for="ha_yes">Yes</label>
+                            <input type="radio" id="ha_no" name="ha" value="No"><label for="ha_no">No</label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="column">
+                <div class="kpi">
+                    <h2>Netcool/OMNIbus KPIs</h2>
+                    <ul>
+                        <li><label>Event flow rate:</label> <input type="text" id="event_flow_rate" value=""></li>
+                        <li><label>Object Server Trigger Stats(Time for all triggers in report period):</label> <input type="text" id="trigger_stats" value=""></li>
+                        <li><label>Object Server profiling(Total time in the report period of 60 secs):</label> <input type="text" id="profiling" value=""></li>
+                        <li><label># of Custom Triggers/Procedures created:</label> <input type="text" id="custom_triggers" value=""></li>
+                        <li><label>User restriction filters created, if any:</label> <input type="text" id="restriction_filters" value=""></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <button id="submitButton" class="submit-button">Submit</button>
+    </div>
+
+    <div id="report" class="report"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/3.7.1/jszip.min.js"></script>
+
+    <script src="script.js"></script>
+
+    <button id="downloadPDFButton" class="download-button">Download PDF Report</button>
+    
+</body>
+</html>
