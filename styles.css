@@ -2,6 +2,8 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #BDF3FE;;
+
 }
 
 .container {
@@ -20,6 +22,7 @@ body {
 
 .column {
     flex-basis: 45%; /* Adjust as needed */
+    background-color: #BDF3FE;
 }
 
 .specs, .kpi {
@@ -63,3 +66,39 @@ input[type="text"], select, input[type="radio"] {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.gui{
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    height: auto;
+
+}
+
+.logo {
+    padding: 20px;
+    top: 0px;
+    left: 0px;
+    width: 70px; /* Resize the image */
+    height: auto;
+    z-index: 1000;
+
+}
+
+
+h1,.alignment{
+    display: flex; 
+    justify-content: center; 
+    color: rgb(0, 2, 0); 
+}
+
+
