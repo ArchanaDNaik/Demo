@@ -1,28 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OMNIbus</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://www.ibm.com/design/language/static/d364f8541a48fa723bb502e883144239/040c5/2306_73_IDL_gallery.jpg');
+            background-size: cover;
+            font-size: 15px; /* Adjust the font size */
+            overflow-x: hidden; /* Hide horizontal scrollbar initially */
+        }
+
+        .header {
+            background-color: rgba(255, 255, 255, 0.8); /* Transparent white background */
+            padding: 10px 20px;
+            text-align: center;
+        }
+
+        .header img {
+            width: 70px;
+            height: auto;
+            vertical-align: middle;
+        }
+
+        .header h1 {
+            display: inline-block;
+            margin: 0;
+            vertical-align: middle;
+            color: rgb(0, 2, 0);
+            font-size: 20px; /* Adjust the font size */
+            margin-left: 10px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .column {
+            flex-basis: 45%;
+        }
+
+        .specs,
+        .kpi {
+            margin-bottom: 20px;
+        }
+
+        .specs h2,
+        .kpi h2 {
+            margin-bottom: 10px;
+            font-size: 16px; /* Adjust the font size */
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            font-size: 14px; /* Adjust the font size */
+        }
+
+        input[type="text"],
+        select,
+        input[type="radio"] {
+            width: 100%;
+            padding: 5px;
+            font-size: 12px; /* Adjust the font size */
+        }
+
+        .submit-button,
+        .download-button,
+        .back-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px; /* Adjust the font size */
+            margin-right: 10px;
+        }
+
+        .submit-button:hover,
+        .download-button:hover,
+        .back-button:hover {
+            background-color: #45a049;
+        }
+
+        .report-container {
+            display: none; /* Initially hide the report container */
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Set the height to 100% of the viewport height */
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.5); /* Transparent white background */
+            z-index: 999; /* Ensure it appears on top of other content */
+        }
+
+        .report {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px; /* Adjust the font size */
+            max-width: 800px; /* Limit the width of the report */
+            background-color: #fff; /* Solid white background for the report */
+        }
+
+        .report-content {
+            background-color: transparent; /* Transparent background for the report content */
+            padding: 20px; /* Add padding to separate content from container borders */
+            border-radius: 5px; /* Add border radius to match container */
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 10px; /* Adjust the font size */
+        }
+
+        .gui {
+            display: flex;
+            padding: 10px;
+            justify-content: center;
+            align-items: center;
+            width: 10%;
+            height: auto;
+        }
+
+        .logo {
+            width: 70px;
+            height: auto;
+            z-index: 1000;
+        }
+    </style>
 </head>
 
 <body>
 
-    <img src="https://pngimg.com/uploads/ibm/ibm_PNG19655.png" alt="IBM Logo" class="logo" onclick="openLink('https://www.ibm.com/in-en')">
-
-    <div class="alignment">
+    <div class="header">
+        <img src="https://pngimg.com/uploads/ibm/ibm_PNG19655.png" alt="IBM Logo" class="logo" onclick="openLink('https://www.ibm.com/in-en')">
         <h1>Netcool Omnibus</h1>
     </div>
 
-    <div class="alignment">
-        <img src="https://github.com/ArchanaDNaik/Demo/blob/main/Netcool-omnibus.png?raw=trueg" class="gui" alt="Netcool WebGUI"/>
-    </div>
-
-
     <div class="container">
-        <input type="file" id="fileInput" accept=".xlsx,.xls">
-        
+
         <!-- First group of containers -->
         <div class="group">
             <div class="column">
@@ -44,7 +188,7 @@
                                 <option value="No">No</option>
                             </select>
                         </li>
-                        
+
                     </ul>
                 </div>
             </div>
@@ -53,11 +197,11 @@
                     <h2>Netcool/OMNIbus KPIs</h2>
                     <ul>
                         <li><label>Event flow rate:</label> <input type="text" id="event_flow_rate" value=""></li>
-                        <li><label>Object Server Trigger Stats(Time for all triggers in report period):</label> <input type="text" id="trigger_stats" value=""></li>
-                        <li><label>Object Server profiling(Total time in the report period of 60 secs):</label> <input type="text" id="profiling" value=""></li>
+                        <li><label>Object Server Trigger Stats:</label> <input type="text" id="trigger_stats" value=""></li>
+                        <li><label>Object Server profiling:</label> <input type="text" id="profiling" value=""></li>
                         <li><label># of Triggers/Procedures created:</label> <input type="text" id="custom_triggers" value=""></li>
                         <li>
-                            <label for="restriction_filters">User restriction filters created, if any:</label> 
+                            <label for="restriction_filters">User restriction filters created, if any:</label>
                             <select id="restriction_filters">
                                 <option value="Yes">Yes</option>
                                 <option value="No">No</option>
@@ -71,16 +215,61 @@
         <button id="submitButton" class="submit-button">Submit</button>
     </div>
 
-    <div id="report" class="report"></div>
+    <div class="report-container" id="reportContainer">
+        <div class="report">
+            <div class="report-content" id="report"></div>
+            <button id="backButton" class="back-button" onclick="backToForm()">Back</button>
+            <button id="downloadButton" class="download-button" onclick="downloadPDF()">Save to PDF</button>
+        </div>
+    </div>
 
-    <script src="script.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script>
+        document.getElementById('submitButton').addEventListener('click', function () {
+            const version = document.getElementById('version').value;
+            const architecture = document.getElementById('architecture').value;
+            const ha = document.getElementById('ha').value;
+            const eventFlowRate = parseFloat(document.getElementById('event_flow_rate').value);
+            const triggerStats = parseFloat(document.getElementById('trigger_stats').value);
+            const profiling = parseFloat(document.getElementById('profiling').value);
+            const customTriggers = document.getElementById('custom_triggers').value;
+            const restrictionFilters = document.getElementById('restriction_filters').value;
 
+            let report = "<h2>Deployment Specifications and KPIs Report</h2>";
+            report += "<h3>Netcool/OMNIbus</h3>";
+            report += "<ul>";
+            report += "<li><strong>Version:</strong> " + checkVersion(version) + "</li>";
+            report += "<li><strong>Architecture:</strong> " + architecture + "</li>";
+            report += "<li><strong>High Availability:</strong> <span style='color: " + (ha === 'Yes' ? 'green' : 'red') + "'>" + ha + "</span></li>";
+            report += "<li><strong>Event flow rate:</strong> <span style='color: " + (eventFlowRate > 250 ? 'red' : 'black') + "'>" + eventFlowRate + "</span></li>";
+            report += "<li><strong>Object Server Trigger Stats:</strong> <span style='color: " + (triggerStats > 50 ? 'red' : 'black') + "'>" + triggerStats + "</span></li>";
+            report += "<li><strong>Object Server Profiling:</strong> <span style='color: " + (profiling > 50 ? 'red' : 'black') + "'>" + profiling + "</span></li>";
+            report += "<li><strong># of Triggers/Procedures created:</strong> <span style='color: " + (customTriggers > 200 ? 'red' : 'black') + "'>" + customTriggers + "</span></li>";
+            report += "<li><strong>User restriction filters created:</strong> <span style='color:" + (restrictionFilters === 'Yes' ? 'green' : 'red') + "'>" + restrictionFilters + "</span></li>";
+            report += "</ul>";
 
-    <button id="downloadPDFButton" class="download-button" onclick="printPageAsPDF()">Download PDF Report</button>    <footer>
-        <p>&copy; 2024 IBM. All rights reserved.</p>
-    </footer>
-    
+            document.getElementById('report').innerHTML = report;
+            document.getElementById('reportContainer').style.display = 'flex'; // Show the report container
+        });
+
+        function checkVersion(version) {
+            if (version >= '8.1.0.30' && version <= '8.1.0.34') {
+                return "<span style='color: green'>" + version + "</span>";
+            } else {
+                return "<span style='color: red'>" + version + "</span>";
+            }
+        }
+
+        function backToForm() {
+            document.getElementById('reportContainer').style.display = 'none'; // Hide the report container
+        }
+
+        function downloadPDF() {
+            // Implement PDF download functionality here
+            window.print(); // This will open the print dialog which allows saving as PDF in most browsers
+        }
+    </script>
+
 </body>
+
 </html>
