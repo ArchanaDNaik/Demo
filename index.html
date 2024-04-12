@@ -196,12 +196,19 @@
                 <div class="kpi">
                     <h2>Netcool/OMNIbus KPIs</h2>
                     <ul>
-                        <li><label>Event flow rate:</label> <input type="text" id="event_flow_rate" value=""></li>
-                        <li><label>Object Server Trigger Stats:</label> <input type="text" id="trigger_stats" value=""></li>
-                        <li><label>Object Server profiling:</label> <input type="text" id="profiling" value=""></li>
-                        <li><label># of Triggers/Procedures created:</label> <input type="text" id="custom_triggers" value=""></li>
-                        <li>
-                            <label for="restriction_filters">User restriction filters created, if any:</label>
+                        <li><label>Status Inserts in last 5 mins</label> <input type="text" id="event_flow_rate" value=""></li>
+                        <li><label>Journal Inserts in last 5 mins</label> <input type="text" id="journal_inserts" value=""></li>
+                        <li><label>Procedures Count :</label> <input type="text" id="custom_triggers" value=""></li>
+                        <li><label>Triggers Count:</label> <input type="text" id="triggers_count" value=""></li>
+                        <li><label>Triggers Time in the reporting period:</label> <input type="text" id="triggers_time" value=""></li>
+                        <li><label>Object Server profiling Enabled:</label>
+                            <select id="profiling_enabled">
+                                <option value="True">True</option>
+                                <option value="False">False</option>
+                            </select>
+                        </li>
+                        <li><label>Object Server profiling period:</label> <input type="text" id="profiling_period" value=""></li>
+                        <li><label>User restriction filters</label>
                             <select id="restriction_filters">
                                 <option value="Yes">Yes</option>
                                 <option value="No">No</option>
@@ -226,28 +233,37 @@
 
     <script>
         document.getElementById('submitButton').addEventListener('click', function () {
-            const version = document.getElementById('version').value;
-            const architecture = document.getElementById('architecture').value;
-            const ha = document.getElementById('ha').value;
-            const eventFlowRate = parseFloat(document.getElementById('event_flow_rate').value);
-            const triggerStats = parseFloat(document.getElementById('trigger_stats').value);
-            const profiling = parseFloat(document.getElementById('profiling').value);
-            const customTriggers = document.getElementById('custom_triggers').value;
-            const restrictionFilters = document.getElementById('restriction_filters').value;
+            // Retrieve input values
+            const version = document.getElementById('version').value || 'N/A';
+            const architecture = document.getElementById('architecture').value || 'N/A';
+            const ha = document.getElementById('ha').value || 'N/A';
+            const eventFlowRate = parseFloat(document.getElementById('event_flow_rate').value) || 0;
+            const journalInserts = parseFloat(document.getElementById('journal_inserts').value) || 0;
+            const customTriggers = document.getElementById('custom_triggers').value || 'N/A';
+            const triggersCount = document.getElementById('triggers_count').value || 'N/A';
+            const triggersTime = parseFloat(document.getElementById('triggers_time').value) || 0;
+            const profilingEnabled = document.getElementById('profiling_enabled').value || 'N/A';
+            const profilingPeriod = parseFloat(document.getElementById('profiling_period').value) || 0;
+            const restrictionFilters = document.getElementById('restriction_filters').value || 'N/A';
 
+            // Generate report
             let report = "<h2>Deployment Specifications and KPIs Report</h2>";
             report += "<h3>Netcool/OMNIbus</h3>";
             report += "<ul>";
             report += "<li><strong>Version:</strong> " + checkVersion(version) + "</li>";
             report += "<li><strong>Architecture:</strong> " + architecture + "</li>";
             report += "<li><strong>High Availability:</strong> <span style='color: " + (ha === 'Yes' ? 'green' : 'red') + "'>" + ha + "</span></li>";
-            report += "<li><strong>Event flow rate:</strong> <span style='color: " + (eventFlowRate > 250 ? 'red' : 'black') + "'>" + eventFlowRate + "</span></li>";
-            report += "<li><strong>Object Server Trigger Stats:</strong> <span style='color: " + (triggerStats > 50 ? 'red' : 'black') + "'>" + triggerStats + "</span></li>";
-            report += "<li><strong>Object Server Profiling:</strong> <span style='color: " + (profiling > 50 ? 'red' : 'black') + "'>" + profiling + "</span></li>";
-            report += "<li><strong># of Triggers/Procedures created:</strong> <span style='color: " + (customTriggers > 200 ? 'red' : 'black') + "'>" + customTriggers + "</span></li>";
-            report += "<li><strong>User restriction filters created:</strong> <span style='color:" + (restrictionFilters === 'Yes' ? 'green' : 'red') + "'>" + restrictionFilters + "</span></li>";
+            report += "<li><strong>Status Inserts in last 5 mins:</strong> <span style='color: " + (eventFlowRate >= 45000 && eventFlowRate <= 75000 ? 'green' : 'red') + "'>" + eventFlowRate + "</span></li>";
+            report += "<li><strong>Journal Inserts in last 5 mins:</strong> <span style='color: " + (journalInserts >= 80 && journalInserts <= 105 ? 'green' : 'red') + "'>" + journalInserts + "</span></li>";
+            report += "<li><strong>Procedures Count:</strong> " + customTriggers + "</li>";
+            report += "<li><strong>Triggers Count:</strong> " + triggersCount + "</li>";
+            report += "<li><strong>Triggers Time in the reporting period:</strong> <span style='color: " + (triggersTime <= 60 ? 'green' : 'red') + "'>" + triggersTime + " s</span></li>";
+            report += "<li><strong>Object Server profiling Enabled:</strong> " + profilingEnabled + "</li>";
+            report += "<li><strong>Object Server profiling period:</strong> <span style='color: " + (profilingPeriod <= 60 ? 'green' : 'red') + "'>" + profilingPeriod + " s</span></li>";
+            report += "<li><strong>User restriction filters:</strong> " + restrictionFilters + "</li>";
             report += "</ul>";
 
+            // Display report
             document.getElementById('report').innerHTML = report;
             document.getElementById('reportContainer').style.display = 'flex'; // Show the report container
         });
@@ -265,8 +281,7 @@
         }
 
         function downloadPDF() {
-            // Implement PDF download functionality here
-            window.print(); // This will open the print dialog which allows saving as PDF in most browsers
+            window.print(); // Open the print dialog for PDF saving
         }
     </script>
 
