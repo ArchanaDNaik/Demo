@@ -174,6 +174,17 @@
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
+
+    footer {
+        padding: 15px;
+        background-color: black; /* Black background color */
+        color: white; /* White text color */
+        text-align: center; /* Center-align the text */
+        font-weight: bold; /* Make the text bold */
+    /* position: fixed; */
+         bottom: 0;
+        width: 99%; /* Make the footer span the full width of the page */
+}
 }
 
 .parameter-box.mismatch {
@@ -341,8 +352,9 @@
     </div>
 
     <footer>
-        &copy; 2024 Netcool Omnibus. All rights reserved.
-    </footer>
+    <p><strong>Disclaimer:</strong> The report tries to compare the important parameters to the recommended values that define performance of the system. A match of the values however does not necessarily guarantee that the system is problem-free. It is recommended that a more comprehensive review of the system be done by our SMEs at the GDC.</p>
+</footer>
+
 
     <script>
         function submitForm() {
