@@ -3,21 +3,63 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OMNIbus</title>
+    <title>OMNIbus and File Upload</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-image: url('https://www.ibm.com/design/language/static/d364f8541a48fa723bb502e883144239/040c5/2306_73_IDL_gallery.jpg');
+            /* background-image: url('https://www.ibm.com/design/language/static/d364f8541a48fa723bb502e883144239/040c5/2306_73_IDL_gallery.jpg'); */
             background-size: cover;
-            font-size: 15px; /* Adjust the font size */
-            overflow-x: hidden; /* Hide horizontal scrollbar initially */
+            font-size: 15px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .left-container {
+            width: 45%;
+            padding: 30px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .left-container h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .left-container table {
+            width: 100%;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .left-container th,
+        .left-container td {
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .right-container {
+            width: 55%;
+            padding: 30px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.8);
         }
 
         .header {
-            background-color: rgba(255, 255, 255, 0.8); /* Transparent white background */
+            background-color: rgba(255, 255, 255, 0.8);
             padding: 10px 20px;
             text-align: center;
         }
@@ -33,27 +75,17 @@
             margin: 0;
             vertical-align: middle;
             color: rgb(0, 2, 0);
-            font-size: 20px; /* Adjust the font size */
+            font-size: 20px;
             margin-left: 10px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: rgba(255, 255, 255, 0.8);
         }
 
         .group {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
         }
 
         .column {
-            flex-basis: 45%;
+            width: 48%;
         }
 
         .specs,
@@ -64,7 +96,7 @@
         .specs h2,
         .kpi h2 {
             margin-bottom: 10px;
-            font-size: 16px; /* Adjust the font size */
+            font-size: 16px;
         }
 
         ul {
@@ -74,63 +106,51 @@
 
         li {
             margin-bottom: 10px;
-            font-size: 14px; /* Adjust the font size */
         }
 
         input[type="text"],
-        select,
-        input[type="radio"] {
+        select {
             width: 100%;
             padding: 5px;
-            font-size: 12px; /* Adjust the font size */
         }
 
         .submit-button,
-        .download-button,
-        .back-button {
+        .download-button {
             padding: 10px 20px;
             background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 14px; /* Adjust the font size */
+            font-size: 14px;
             margin-right: 10px;
         }
 
         .submit-button:hover,
-        .download-button:hover,
-        .back-button:hover {
+        .download-button:hover {
             background-color: #45a049;
         }
 
-        .report-container {
+        #reportContainer {
             display: none; /* Initially hide the report container */
-            justify-content: center;
-            align-items: center;
-            height: 100vh; /* Set the height to 100% of the viewport height */
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(255, 255, 255, 0.5); /* Transparent white background */
-            z-index: 999; /* Ensure it appears on top of other content */
-        }
-
-        .report {
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px; /* Adjust the font size */
-            max-width: 800px; /* Limit the width of the report */
-            background-color: #fff; /* Solid white background for the report */
         }
 
         .report-content {
-            background-color: transparent; /* Transparent background for the report content */
-            padding: 20px; /* Add padding to separate content from container borders */
-            border-radius: 5px; /* Add border radius to match container */
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+        }
+
+        .back-button {
+            padding: 10px 20px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
         }
 
         footer {
@@ -138,23 +158,49 @@
             color: white;
             text-align: center;
             padding: 10px 0;
-            font-size: 10px; /* Adjust the font size */
+            font-size: 10px;
         }
 
-        .gui {
-            display: flex;
-            padding: 10px;
-            justify-content: center;
-            align-items: center;
-            width: 10%;
-            height: auto;
-        }
+        .parameter-box.match {
+    background-color: #d4edda; /* Green background for a match */
+    border: 1px solid #c3e6cb; /* Green border for a match */
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
 
-        .logo {
-            width: 70px;
-            height: auto;
-            z-index: 1000;
-        }
+.parameter-box.mismatch {
+    background-color: #f8d7da; /* Red background for a mismatch */
+    border: 1px solid #f5c6cb; /* Red border for a mismatch */
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.parameter-box {
+    width: 48%; /* Adjust this value as needed */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.match {
+    background-color: #d4edda; /* Green background for a match */
+    border: 1px solid #c3e6cb; /* Green border for a match */
+}
+
+.mismatch {
+    background-color: #f8d7da; /* Red background for a mismatch */
+    border: 1px solid #f5c6cb; /* Red border for a mismatch */
+}
+
+
     </style>
 </head>
 
@@ -166,125 +212,237 @@
     </div>
 
     <div class="container">
-
-        <!-- First group of containers -->
-        <div class="group">
-            <div class="column">
-                <div class="specs">
-                    <h2>Netcool/OMNIbus Specifications</h2>
-                    <ul>
-                        <li><label>Version:</label> <input type="text" id="version" value=""></li>
-                        <li>
-                            <label>Architecture:</label>
-                            <select id="architecture">
-                                <option value="Single tier">Single tier</option>
-                                <option value="Multi tier">Multi tier</option>
-                            </select>
-                        </li>
-                        <li>
-                            <label>High Availability:</label>
-                            <select id="ha">
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                            </select>
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
-            <div class="column">
-                <div class="kpi">
-                    <h2>Netcool/OMNIbus KPIs</h2>
-                    <ul>
-                        <li><label>Status Inserts in last 5 mins</label> <input type="text" id="event_flow_rate" value=""></li>
-                        <li><label>Journal Inserts in last 5 mins</label> <input type="text" id="journal_inserts" value=""></li>
-                        <li><label>Procedures Count :</label> <input type="text" id="custom_triggers" value=""></li>
-                        <li><label>Triggers Count:</label> <input type="text" id="triggers_count" value=""></li>
-                        <li><label>Triggers Time in the reporting period:</label> <input type="text" id="triggers_time" value=""></li>
-                        <li><label>Object Server profiling Enabled:</label>
-                            <select id="profiling_enabled">
-                                <option value="True">True</option>
-                                <option value="False">False</option>
-                            </select>
-                        </li>
-                        <li><label>Object Server profiling period:</label> <input type="text" id="profiling_period" value=""></li>
-                        <li><label>User restriction filters</label>
-                            <select id="restriction_filters">
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                            </select>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+        <div class="left-container">
+            <h3>Metric Descriptions</h3>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>Netcool Omnibus Version</td>
+                    <td>Most Recent Version of Netcool Omnibus</td>
+                </tr>
+                <tr>
+                    <td>Status Inserts</td>
+                    <td>Number of inserts in the alerts.status table in the last 5 minutes</td>
+                </tr>
+                <tr>
+                    <td>Trigger Count</td>
+                    <td>Count of Number of Triggers in the Netcool Omnibus ObjectServer</td>
+                </tr>
+                <tr>
+                    <td>Trigger Time</td>
+                    <td>The Exact measure of load that ObjectServer triggers are placing on the ObjectServer in each granularity cycle of 60 seconds</td>
+                </tr>
+                <tr>
+                    <td>Profiling Enabled</td>
+                    <td>With profiling enabled, the ObjectServer will write profiling information to its log files at the end of each granularity period (default 60 seconds).</td>
+                </tr>
+                <tr>
+                    <td>Profiling Period</td>
+                    <td>In each granularity cycle of 60 seconds, the ObjectServer will write a summary of time it has spent interacting with each external client and total time for that granularity period called “report period”.</td>
+                </tr>
+                <tr>
+                    <td>Procedures Count</td>
+                    <td>Count of Number of Procedures in the Netcool Omnibus ObjectServer</td>
+                </tr>
+                <tr>
+                    <td>EventCount</td>
+                    <td>Number of rows in the alerts.status table</td>
+                </tr>
+                <tr>
+                    <td>DetailCount</td>
+                    <td>Number of rows in the alerts.details table</td>
+                </tr>
+                <tr>
+                    <td>JournalCount</td>
+                    <td>Number of rows in the alerts.journal table</td>
+                </tr>
+                <tr>
+                    <td>ObjectServer Connections</td>
+                    <td>Number of connections into the ObjectServer</td>
+                </tr>
+            </table>
         </div>
 
-        <button id="submitButton" class="submit-button">Submit</button>
-    </div>
+        <div class="right-container" id="rightContainer">
+            <div class="form-container" id="formContainer">
+                <div class="group">
+                    <div class="column">
+                        <div class="specs">
+                            <h2>Netcool/OMNIbus Specifications</h2>
+                            <ul>
+                                <li><label>Version:</label> <input type="text" id="version" value=""></li>
+                                <li><label>Architecture:</label>
+                                    <select id="architecture">
+                                        <option value="Single tier">Single tier</option>
+                                        <option value="Multi tier">Multi tier</option>
+                                    </select>
+                                </li>
+                                <li><label>High Availability:</label>
+                                    <select id="ha">
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="kpi">
+                            <h2>Netcool/OMNIbus KPIs</h2>
+                            <ul>
+                                <li><label>Status Inserts in last 5 mins:</label> <input type="text" id="event_flow_rate" value=""></li>
+                                <li><label>Journal Inserts in last 5 mins:</label> <input type="text" id="journal_inserts" value=""></li>
+                                <li><label>Procedures Count:</label> <input type="text" id="custom_triggers" value=""></li>
+                                <li><label>Triggers Count:</label> <input type="text" id="triggers_count" value=""></li>
+                                <li><label>Triggers Time in the reporting period:</label> <input type="text" id="triggers_time" value=""></li>
+                                <li><label>ObjectServer Connections:</label> <input type="text" id="objectserver_connections" value=""></li>
+                                <li><label>Profiling Enabled:</label>
+                                    <select id="profiling_enabled">
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </li>
+                                <li><label>Profiling Period:</label>
+                                    <select id="profiling_period">
+                                        <option value="1 minute">1 minute</option>
+                                        <option value="5 minutes">5 minutes</option>
+                                        <option value="10 minutes">10 minutes</option>
+                                        <option value="30 minutes">30 minutes</option>
+                                        <option value="60 minutes">60 minutes</option>
+                                    </select>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 
-    <div class="report-container" id="reportContainer">
-        <div class="report">
-            <div class="report-content" id="report"></div>
-            <button id="backButton" class="back-button" onclick="backToForm()">Back</button>
-            <button id="downloadButton" class="download-button" onclick="downloadPDF()">Save to PDF</button>
+                <button class="submit-button" onclick="submitForm()">Submit</button>
+            </div>
+
+            <div id="reportContainer">
+                <div class="report-content" id="reportContent">
+                    <!-- Report content will be displayed here -->
+                </div>
+                <button class="back-button" onclick="goBackToForm()">Back to Form</button>
+                <button class="download-button" onclick="downloadPDF()">Download as PDF</button>
+
+            </div>
         </div>
     </div>
 
+    <footer>
+        &copy; 2024 Netcool Omnibus. All rights reserved.
+    </footer>
 
     <script>
-        document.getElementById('submitButton').addEventListener('click', function () {
-            // Retrieve input values
-            const version = document.getElementById('version').value || 'N/A';
-            const architecture = document.getElementById('architecture').value || 'N/A';
-            const ha = document.getElementById('ha').value || 'N/A';
-            const eventFlowRate = parseFloat(document.getElementById('event_flow_rate').value) || 0;
-            const journalInserts = parseFloat(document.getElementById('journal_inserts').value) || 0;
-            const customTriggers = document.getElementById('custom_triggers').value || 'N/A';
-            const triggersCount = document.getElementById('triggers_count').value || 'N/A';
-            const triggersTime = parseFloat(document.getElementById('triggers_time').value) || 0;
-            const profilingEnabled = document.getElementById('profiling_enabled').value || 'N/A';
-            const profilingPeriod = parseFloat(document.getElementById('profiling_period').value) || 0;
-            const restrictionFilters = document.getElementById('restriction_filters').value || 'N/A';
+        function submitForm() {
+    const version = document.getElementById("version").value;
+    const architecture = document.getElementById("architecture").value;
+    const ha = document.getElementById("ha").value;
+    const eventFlowRate = parseInt(document.getElementById("event_flow_rate").value);
+    const journalInserts = parseInt(document.getElementById("journal_inserts").value);
+    const customTriggers = parseInt(document.getElementById("custom_triggers").value);
+    const triggersCount = parseInt(document.getElementById("triggers_count").value);
+    const triggersTime = parseInt(document.getElementById("triggers_time").value);
+    const objectserverConnections = parseInt(document.getElementById("objectserver_connections").value);
+    const profilingEnabled = document.getElementById("profiling_enabled").value;
+    const profilingPeriod = document.getElementById("profiling_period").value;
 
-            // Generate report
-            let report = "<h2>Deployment Specifications and KPIs Report</h2>";
-            report += "<h3>Netcool/OMNIbus</h3>";
-            report += "<ul>";
-            report += "<li><strong>Version:</strong> " + checkVersion(version) + "</li>";
-            report += "<li><strong>Architecture:</strong> " + architecture + "</li>";
-            report += "<li><strong>High Availability:</strong> <span style='color: " + (ha === 'Yes' ? 'green' : 'red') + "'>" + ha + "</span></li>";
-            report += "<li><strong>Status Inserts in last 5 mins:</strong> <span style='color: " + (eventFlowRate >= 45000 && eventFlowRate <= 75000 ? 'green' : 'red') + "'>" + eventFlowRate + "</span></li>";
-            report += "<li><strong>Journal Inserts in last 5 mins:</strong> <span style='color: " + (journalInserts >= 80 && journalInserts <= 105 ? 'green' : 'red') + "'>" + journalInserts + "</span></li>";
-            report += "<li><strong>Procedures Count:</strong> " + customTriggers + "</li>";
-            report += "<li><strong>Triggers Count:</strong> " + triggersCount + "</li>";
-            report += "<li><strong>Triggers Time in the reporting period:</strong> <span style='color: " + (triggersTime <= 60 ? 'green' : 'red') + "'>" + triggersTime + " s</span></li>";
-            report += "<li><strong>Object Server profiling Enabled:</strong> " + profilingEnabled + "</li>";
-            report += "<li><strong>Object Server profiling period:</strong> <span style='color: " + (profilingPeriod <= 60 ? 'green' : 'red') + "'>" + profilingPeriod + " s</span></li>";
-            report += "<li><strong>User restriction filters:</strong> " + restrictionFilters + "</li>";
-            report += "</ul>";
+    const expectedValues = {
+        version: "8.1.0.5",
+        architecture: "Single tier",
+        ha: "Yes",
+        eventFlowRate: {
+            min: 45000,
+            max: 75000
+        },
+        journalInserts: {
+            min: 80,
+            max: 105
+        },
+        customTriggers: 20,
+        triggersCount: 10,
+        triggersTime: 60,
+        objectserverConnections: 5,
+        profilingEnabled: "Yes",
+        profilingPeriod: "5 minutes"
+    };
 
-            // Display report
-            document.getElementById('report').innerHTML = report;
-            document.getElementById('reportContainer').style.display = 'flex'; // Show the report container
-        });
+    // Create a list of parameters and values
+    const parameters = [
+        ["Version", version, expectedValues.version, version === expectedValues.version],
+        ["Architecture", architecture, expectedValues.architecture, architecture === expectedValues.architecture],
+        ["High Availability", ha, expectedValues.ha, ha === expectedValues.ha],
+        ["Event Flow Rate", eventFlowRate, `${expectedValues.eventFlowRate.min} - ${expectedValues.eventFlowRate.max}`, 
+            eventFlowRate >= expectedValues.eventFlowRate.min && eventFlowRate <= expectedValues.eventFlowRate.max],
+        ["Journal Inserts", journalInserts, `${expectedValues.journalInserts.min} - ${expectedValues.journalInserts.max}`, 
+            journalInserts >= expectedValues.journalInserts.min && journalInserts <= expectedValues.journalInserts.max],
+        ["Custom Triggers", customTriggers, expectedValues.customTriggers, customTriggers === expectedValues.customTriggers],
+        ["Triggers Count", triggersCount, expectedValues.triggersCount, triggersCount === expectedValues.triggersCount],
+        ["Triggers Time", triggersTime, `${expectedValues.triggersTime} s`, triggersTime <= expectedValues.triggersTime],
+        ["ObjectServer Connections", objectserverConnections, expectedValues.objectserverConnections, 
+            objectserverConnections === expectedValues.objectserverConnections],
+        ["Profiling Enabled", profilingEnabled, expectedValues.profilingEnabled, profilingEnabled === expectedValues.profilingEnabled],
+        ["Profiling Period", profilingPeriod, expectedValues.profilingPeriod, profilingPeriod === expectedValues.profilingPeriod]
+    ];
 
-        function checkVersion(version) {
-            if (version >= '8.1.0.30' && version <= '8.1.0.34') {
-                return "<span style='color: green'>" + version + "</span>";
-            } else {
-                return "<span style='color: red'>" + version + "</span>";
-            }
-        }
+    const reportContent = document.getElementById("reportContent");
+    reportContent.innerHTML = ""; // Clear any previous content
 
-        function backToForm() {
-            document.getElementById('reportContainer').style.display = 'none'; // Hide the report container
+    // Function to add rows with two boxes each
+    function addRow(param1, value1, expectedValue1, isInRange1, param2, value2, expectedValue2, isInRange2) {
+        const row = `
+            <div style="display: flex; justify-content: space-between;">
+                ${getBox(param1, value1, expectedValue1, isInRange1)}
+                ${getBox(param2, value2, expectedValue2, isInRange2)}
+            </div>
+        `;
+        reportContent.innerHTML += row;
+    }
+
+    // Function to create a box
+    function getBox(param, value, expectedValue, isInRange) {
+        const color = isInRange ? "green" : "red";
+        return `
+            <div style="width: 48%; display: inline-block; padding: 10px; margin-bottom: 10px; border: 1px solid ${color}; border-radius: 5px;">
+                <p><strong>${param}:</strong></p>
+                <p>Value: <span style="color: ${color};">${value}</span></p>
+                <p>Expected: ${expectedValue}</p>
+            </div>
+        `;
+    }
+
+    // Iterate through parameters in pairs and add rows
+    for (let i = 0; i < parameters.length - 1; i += 2) {
+        const [param1, value1, expectedValue1, isInRange1] = parameters[i];
+        const [param2, value2, expectedValue2, isInRange2] = parameters[i + 1];
+        addRow(param1, value1, expectedValue1, isInRange1, param2, value2, expectedValue2, isInRange2);
+    }
+
+    // Hide the form container and display the report container
+    document.getElementById("formContainer").style.display = "none";
+    document.getElementById("reportContainer").style.display = "block";
+}
+
+        function goBackToForm() {
+            // Hide the report container
+            document.getElementById("reportContainer").style.display = "none";
+
+            // Show the form container
+            document.getElementById("formContainer").style.display = "block";
         }
 
         function downloadPDF() {
             window.print(); // Open the print dialog for PDF saving
         }
-    </script>
 
+        function openLink(url) {
+            window.open(url, '_blank');
+        }
+    </script>
 </body>
 
 </html>
